@@ -1,15 +1,15 @@
 # MazadPay Admin Dashboard
 
-لوحة التحكم الإدارية لمنصة مزاد باي — **Milestone B: Mock Data Dashboard**
+لوحة التحكم الإدارية لمنصة مزاد باي — **Milestone C: Mock Auth + Role-based UI**
 
 ---
 
 ## الحالة الحالية
 
-> **Milestone B — لوحة تحكم كاملة بـ mock data**
+> **Milestone C — Mock Auth + Role-based UI + جاهز للنشر على Cloudflare Pages**
 >
 > لا يوجد اتصال بقاعدة بيانات أو خادم. جميع البيانات تجريبية من `src/lib/mock-data.ts`.
-> لا يوجد API calls — لا يوجد fetch — لا يوجد Auth حقيقي.
+> لا يوجد API calls — لا يوجد fetch — لا يوجد Auth حقيقي — لا يوجد JWT — لا يوجد localStorage.
 
 ---
 
@@ -108,9 +108,24 @@ src/
 - لوحة التحكم مستقلة تماماً عن `plateforme-mazadpay` و`mazadpay-api`
 - RTL Arabic-first من البداية (`dir="rtl"` في index.html والـ Layout)
 - الألوان متناسقة مع هوية MazadPay: أزرق `#2563EB` / كحلي `#0B1B3B`
-- لا يوجد API calls أو Auth حقيقي — هذا Milestone B (UI + mock data)
+- لا يوجد API calls أو Auth حقيقي — Mock data + Mock session فقط
+- لا يوجد JWT أو localStorage أو cookies
 
 ---
+
+## Deployment — Cloudflare Pages
+
+| الإعداد | القيمة |
+|---|---|
+| **Build command** | `npm run build` |
+| **Build output directory** | `dist` |
+| **Node version** | 18+ |
+| **Production branch** | `main` |
+| **SPA fallback** | `public/_redirects` → `/* /index.html 200` |
+| **Security headers** | `public/_headers` |
+
+> **ملاحظة:** المشروع حالياً Mock Auth فقط — **لا تربط `admin.mazadpay.com`** حتى اكتمال Auth الحقيقي في Milestone D.
+> للحماية المؤقتة يمكن استخدام Cloudflare Access على `*.pages.dev`.
 
 ---
 
