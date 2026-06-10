@@ -1,5 +1,6 @@
 import { Menu, Bell, User } from "lucide-react";
 import { mockStats } from "../../lib/mock-data";
+import { mockSession } from "../../lib/mock-session";
 
 interface TopbarProps {
   onMenuClick: () => void;
@@ -7,6 +8,8 @@ interface TopbarProps {
 }
 
 export default function Topbar({ onMenuClick, pageTitle }: TopbarProps) {
+  const admin = mockSession.user;
+
   return (
     <header className="h-16 bg-white border-b border-line flex items-center justify-between px-5 flex-shrink-0">
       {/* Right side */}
@@ -37,8 +40,8 @@ export default function Topbar({ onMenuClick, pageTitle }: TopbarProps) {
             <User className="w-4 h-4 text-brand-500" />
           </div>
           <div className="hidden sm:block text-right">
-            <div className="text-xs font-700 text-ink leading-none">Super Admin</div>
-            <div className="text-xs text-muted mt-0.5">admin@mazadpay.com</div>
+            <div className="text-xs font-700 text-ink leading-none">{admin.name}</div>
+            <div className="text-xs text-muted mt-0.5">{admin.email}</div>
           </div>
         </div>
       </div>

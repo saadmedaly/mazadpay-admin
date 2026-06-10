@@ -1,14 +1,15 @@
 # MazadPay Admin Dashboard
 
-لوحة التحكم الإدارية لمنصة مزاد باي — **Milestone A: Static UI**
+لوحة التحكم الإدارية لمنصة مزاد باي — **Milestone B: Mock Data Dashboard**
 
 ---
 
 ## الحالة الحالية
 
-> **Milestone A — واجهة UI ثابتة بدون API**
+> **Milestone B — لوحة تحكم كاملة بـ mock data**
 >
 > لا يوجد اتصال بقاعدة بيانات أو خادم. جميع البيانات تجريبية من `src/lib/mock-data.ts`.
+> لا يوجد API calls — لا يوجد fetch — لا يوجد Auth حقيقي.
 
 ---
 
@@ -19,7 +20,7 @@ npm install
 npm run dev
 ```
 
-ثم افتح: `http://localhost:5173`
+ثم افتح: `http://localhost:5174` (أو المنفذ الذي يظهر في الطرفية)
 
 ---
 
@@ -39,11 +40,28 @@ npm run build
 |--------|--------|
 | `/login` | تسجيل الدخول (UI فقط) |
 | `/dashboard` | لوحة التحكم الرئيسية |
-| `/auctions` | قائمة المزادات مع فلترة وبحث |
-| `/users` | قائمة المستخدمين |
+| `/auctions` | قائمة المزادات — بحث + فلترة + pagination |
+| `/auctions/:id` | تفاصيل المزاد — وصف، مزايدات، صاحب المزاد |
+| `/users` | قائمة المستخدمين — بحث + فلترة + pagination |
+| `/users/:id` | ملف المستخدم — مزاداته، مزايداته |
 | `/categories` | التصنيفات |
 | `/messages` | رسائل التواصل |
-| `/settings` | الإعدادات (عرض فقط) |
+| `/settings` | الإعدادات |
+| `*` | صفحة 404 مع زر العودة |
+
+---
+
+## Milestone B — ما تم إضافته
+
+- **AuctionDetail** `/auctions/:id` — عنوان، تصنيف، حالة، سعر، وصف، مزايدات، صاحب المزاد
+- **UserDetail** `/users/:id` — ملف كامل، مزاداته، مزايداته
+- **Local Search** — بحث محلي داخل mock data في Auctions و Users
+- **Local Filter** — فلترة بالحالة في كلا الصفحتين
+- **Local Pagination** — 5 عناصر في الصفحة مع أزرار التنقل
+- **Mock Session** — `src/lib/mock-session.ts` — admin object بدون localStorage أو cookies
+- **ProtectedLayout** — محاكاة حماية الـ routes (mock فقط)
+- **404 Page** — صفحة جميلة لأي رابط غير معروف
+- **Empty States** — رسائل واضحة عند عدم وجود نتائج
 
 ---
 
@@ -62,24 +80,26 @@ npm run build
 ```
 src/
 ├── components/
-│   ├── layout/        # AdminLayout, Sidebar, Topbar
+│   ├── layout/        # AdminLayout, Sidebar, Topbar, ProtectedLayout
 │   ├── shared/        # StatCard, StatusBadge, PageHeader, EmptyState
 │   └── auctions/      # AuctionTable
-├── pages/             # Dashboard, Auctions, Users, Categories, Messages, Settings, Login
+├── pages/
+│   ├── Dashboard.tsx
+│   ├── Auctions.tsx        # search + filter + pagination
+│   ├── AuctionDetail.tsx   # NEW
+│   ├── Users.tsx           # search + filter + pagination
+│   ├── UserDetail.tsx      # NEW
+│   ├── Categories.tsx
+│   ├── Messages.tsx
+│   ├── Settings.tsx
+│   ├── Login.tsx
+│   └── NotFound.tsx        # NEW
 ├── lib/
-│   ├── mock-data.ts   # بيانات تجريبية
-│   └── utils.ts       # دوال مساعدة
-└── router.tsx         # تعريف الـ routes
+│   ├── mock-data.ts        # بيانات تجريبية موسّعة
+│   ├── mock-session.ts     # NEW — mock admin session
+│   └── utils.ts
+└── router.tsx
 ```
-
----
-
-## الخطوة القادمة — Milestone B
-
-- إضافة صفحات تفاصيل المزاد والمستخدم
-- Pagination محلي على الجداول
-- Mock session لمحاكاة الـ Auth
-- Protected routes
 
 ---
 
@@ -88,4 +108,12 @@ src/
 - لوحة التحكم مستقلة تماماً عن `plateforme-mazadpay` و`mazadpay-api`
 - RTL Arabic-first من البداية (`dir="rtl"` في index.html والـ Layout)
 - الألوان متناسقة مع هوية MazadPay: أزرق `#2563EB` / كحلي `#0B1B3B`
-- لا يوجد API calls أو Auth حقيقي في هذه المرحلة
+- لا يوجد API calls أو Auth حقيقي — هذا Milestone B (UI + mock data)
+
+---
+
+## الخطوة القادمة — Milestone C
+
+- ربط API حقيقي (TanStack Query + Axios)
+- Auth حقيقي مع JWT
+- CRUD كامل للمزادات والمستخدمين
