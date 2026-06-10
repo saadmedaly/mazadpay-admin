@@ -10,6 +10,7 @@ import UserDetail       from "./pages/UserDetail";
 import Categories       from "./pages/Categories";
 import Messages         from "./pages/Messages";
 import Settings         from "./pages/Settings";
+import Forbidden        from "./pages/Forbidden";
 import NotFound         from "./pages/NotFound";
 
 const router = createBrowserRouter([
@@ -18,21 +19,25 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
+    path: "/forbidden",
+    element: <Forbidden />,
+  },
+  {
     path: "/",
     element: <ProtectedLayout />,
     children: [
       {
         element: <AdminLayout />,
         children: [
-          { index: true,                  element: <Navigate to="/dashboard" replace /> },
-          { path: "dashboard",            element: <Dashboard /> },
-          { path: "auctions",             element: <Auctions /> },
-          { path: "auctions/:id",         element: <AuctionDetail /> },
-          { path: "users",                element: <Users /> },
-          { path: "users/:id",            element: <UserDetail /> },
-          { path: "categories",           element: <Categories /> },
-          { path: "messages",             element: <Messages /> },
-          { path: "settings",             element: <Settings /> },
+          { index: true,          element: <Navigate to="/dashboard" replace /> },
+          { path: "dashboard",    element: <Dashboard /> },
+          { path: "auctions",     element: <Auctions /> },
+          { path: "auctions/:id", element: <AuctionDetail /> },
+          { path: "users",        element: <Users /> },
+          { path: "users/:id",    element: <UserDetail /> },
+          { path: "categories",   element: <Categories /> },
+          { path: "messages",     element: <Messages /> },
+          { path: "settings",     element: <Settings /> },
         ],
       },
     ],

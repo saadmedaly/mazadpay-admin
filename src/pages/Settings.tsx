@@ -1,5 +1,7 @@
+import { useNavigate } from "react-router-dom";
 import PageHeader from "../components/shared/PageHeader";
-import { Info } from "lucide-react";
+import { Info, ShieldOff } from "lucide-react";
+import { hasPermission } from "../lib/mock-session";
 
 interface FieldProps {
   label: string;
@@ -23,9 +25,36 @@ function SettingField({ label, value, type = "text", dir = "rtl" }: FieldProps) 
 }
 
 export default function Settings() {
+  const navigate = useNavigate();
+  const canManage = hasPermission("manage_settings");
+
+  if (!hasPermission("view_settings")) {
+    return (
+      <div className="flex flex-col items-center justify-center py-24 gap-4">
+        <div className="w-14 h-14 rounded-2xl bg-red-50 border border-red-100 flex items-center justify-center">
+          <ShieldOff className="w-7 h-7 text-red-400" />
+        </div>
+        <p className="text-lg font-700 text-ink">غير مصرح لك</p>
+        <p className="text-sm text-muted">ليس لديك صلاحية الوصول إلى الإعدادات</p>
+        <button
+          onClick={() => navigate("/forbidden")}
+          className="text-sm font-700 text-brand-500 hover:text-brand-600 transition-colors"
+        >
+          عرض صفحة الصلاحيات ←
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-5">
       <PageHeader title="الإعدادات" subtitle="إعدادات المنصة العامة" />
+      {!canManage && (
+        <div className="bg-amber-50 border border-amber-200 rounded-xl px-5 py-3 flex items-center gap-2">
+          <Info className="w-4 h-4 text-amber-600 flex-shrink-0" />
+          <p className="text-sm text-amber-800 font-600">وضع القراءة فقط — لا تملك صلاحية تعديل الإعدادات</p>
+        </div>
+      )}
 
       {/* Notice */}
       <div className="flex items-start gap-3 bg-brand-50 border border-brand-200 rounded-xl px-4 py-3">
@@ -54,7 +83,9 @@ export default function Settings() {
           disabled
           className="flex items-center gap-2 bg-brand-500/50 text-white text-sm font-700 px-5 py-2.5 rounded-xl cursor-not-allowed"
         >
-          حفظ الإعدادات (غير متاح في Milestone A)
+          {canManage
+            ? "حفظ الإعدادات (متاح في Milestone D)"
+            : "حفظ الإعدادات (قراءة فقط)"}
         </button>
       </div>
     </div>

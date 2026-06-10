@@ -112,7 +112,24 @@ src/
 
 ---
 
-## الخطوة القادمة — Milestone C
+---
+
+## Milestone C — ما تم إضافته
+
+- **Login UI** — صفحة دخول احترافية: بريد + كلمة مرور + إظهار/إخفاء + تذكّرني + demo credentials box + loading animation
+- **Mock Session** — `src/lib/mock-session.ts` — role (`super_admin`) + permissions list + `hasPermission()` + `hasRole()` + `roleLabels`
+- **Role-based UI** — أزرار إنشاء/تعديل/حذف المزاد تظهر حسب الصلاحية فقط
+- **Protected Layout** — redirect إلى `/login` إذا `isAuthenticated = false`
+- **Forbidden Page** `/forbidden` — 403 مع زر العودة
+- **Settings Guard** — رسالة صلاحية غير كافية إذا لم يملك المستخدم `view_settings`
+- **Topbar** — اسم المدير + role badge + زر logout ينقل إلى `/login`
+- **Sidebar** — nav items مفلترة حسب الصلاحيات + mini profile + logout
+- **Logout** — navigate إلى `/login` فقط — بدون localStorage أو cookies
+- لا يوجد Auth حقيقي — لا JWT — لا cookies — لا localStorage — لا API
+
+---
+
+## الخطوة القادمة — Milestone D
 
 - ربط API حقيقي (TanStack Query + Axios)
 - Auth حقيقي مع JWT

@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus, Search, Eye, Pencil, ChevronRight, ChevronLeft } from "lucide-react";
+import { Plus, Search, Eye, Pencil, Trash2, ChevronRight, ChevronLeft } from "lucide-react";
 import PageHeader from "../components/shared/PageHeader";
 import StatusBadge from "../components/shared/StatusBadge";
 import EmptyState from "../components/shared/EmptyState";
 import { mockAuctions, type AuctionStatus } from "../lib/mock-data";
 import { formatPrice, formatDate } from "../lib/utils";
+import { hasPermission } from "../lib/mock-session";
 
 const PAGE_SIZE = 5;
 
@@ -49,10 +50,15 @@ export default function Auctions() {
         title="المزادات"
         subtitle={`${mockAuctions.length} مزاد إجمالاً`}
         action={
-          <button className="flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white text-sm font-700 px-4 py-2 rounded-xl transition-colors shadow-blue">
-            <Plus className="w-4 h-4" />
-            مزاد جديد
-          </button>
+          hasPermission("create_auction") ? (
+            <button
+              className="flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white text-sm font-700 px-4 py-2 rounded-xl transition-colors shadow-blue"
+              onClick={() => alert("هذه الميزة ستكون متاحة في Milestone D")}
+            >
+              <Plus className="w-4 h-4" />
+              مزاد جديد
+            </button>
+          ) : undefined
         }
       />
 
@@ -139,13 +145,24 @@ export default function Auctions() {
                         >
                           <Eye className="w-4 h-4" />
                         </button>
-                        <button
-                          className="p-1.5 rounded-lg hover:bg-brand-50 text-slate hover:text-brand-500 transition-colors"
-                          title="تعديل"
-                          onClick={() => alert("هذه الميزة ستكون متاحة في Milestone C")}
-                        >
-                          <Pencil className="w-4 h-4" />
-                        </button>
+                        {hasPermission("edit_auction") && (
+                          <button
+                            className="p-1.5 rounded-lg hover:bg-brand-50 text-slate hover:text-brand-500 transition-colors"
+                            title="تعديل"
+                            onClick={() => alert("هذه الميزة ستكون متاحة في Milestone D")}
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </button>
+                        )}
+                        {hasPermission("delete_auction") && (
+                          <button
+                            className="p-1.5 rounded-lg hover:bg-red-50 text-slate hover:text-red-500 transition-colors"
+                            title="حذف"
+                            onClick={() => alert("هذه الميزة ستكون متاحة في Milestone D")}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>
